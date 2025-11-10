@@ -1,4 +1,4 @@
-package com.iona.ionaapi.domaine;
+package com.iona.ionaapi.domain;
 
 
 import lombok.*;

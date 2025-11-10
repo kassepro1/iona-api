@@ -1,7 +1,7 @@
 package com.iona.ionaapi.service;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.iona.ionaapi.domaine.InsuranceCertificateDto;
+import com.iona.ionaapi.domain.InsuranceCertificateDto;
 import dev.langchain4j.model.chat.ChatModel;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;

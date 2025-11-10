@@ -1,6 +1,6 @@
 package com.iona.ionaapi.controller;
 
-import com.iona.ionaapi.domaine.InsuranceCertificateDto;
+import com.iona.ionaapi.domain.InsuranceCertificateDto;
 import com.iona.ionaapi.service.MistralAiService;
 import com.iona.ionaapi.service.PdfExtractorService;
 import jakarta.servlet.http.HttpServletRequest;
