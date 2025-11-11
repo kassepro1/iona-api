@@ -1,4 +1,4 @@
-package com.iona.ionaapi.domain.mastercontractor;
+package com.iona.ionaapi.domain.contractor;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
@@ -6,12 +6,9 @@ import jakarta.persistence.*;
 import java.time.Instant;
 import java.util.UUID;
 
-/**
- * Contact entity - contact person for master contractor
- */
 @Entity
-@Table(name = "contacts")
-public class Contact {
+@Table(name = "contractor_contacts")
+public class ContractorContact {
     
     @Id
     @GeneratedValue(strategy = GenerationType.UUID)
@@ -36,9 +33,9 @@ public class Contact {
     private boolean isPrimary = false;
     
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "master_contractor_id")
+    @JoinColumn(name = "contractor_id")
     @JsonIgnore
-    private MasterContractor masterContractor;
+    private Contractor contractor;
     
     @Column(name = "created_at", nullable = false, updatable = false)
     private Instant createdAt;
@@ -47,12 +44,12 @@ public class Contact {
     private Instant lastUpdatedAt;
     
     // Constructors
-    public Contact() {
+    public ContractorContact() {
         this.createdAt = Instant.now();
         this.lastUpdatedAt = Instant.now();
     }
     
-    public Contact(String firstName, String lastName, String email, String phone) {
+    public ContractorContact(String firstName, String lastName, String email, String phone) {
         this();
         this.firstName = firstName;
         this.lastName = lastName;
@@ -102,8 +99,8 @@ public class Contact {
     public boolean isPrimary() { return isPrimary; }
     public void setPrimary(boolean isPrimary) { this.isPrimary = isPrimary; }
     
-    public MasterContractor getMasterContractor() { return masterContractor; }
-    public void setMasterContractor(MasterContractor masterContractor) { this.masterContractor = masterContractor; }
+    public Contractor getContractor() { return contractor; }
+    public void setContractor(Contractor contractor) { this.contractor = contractor; }
     
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
@@ -113,7 +110,7 @@ public class Contact {
     
     @Override
     public String toString() {
-        return String.format("Contact{id=%s, fullName='%s', email='%s', isPrimary=%b}", 
+        return String.format("ContractorContact{id=%s, fullName='%s', email='%s', isPrimary=%b}", 
                            id, getFullName(), email, isPrimary);
     }
 }

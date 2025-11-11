@@ -1,6 +1,7 @@
 package com.iona.ionaapi.application.service;
 
 import com.iona.ionaapi.application.service.dto.MasterContractorStats;
+import com.iona.ionaapi.domain.mastercontractor.Contact;
 import com.iona.ionaapi.domain.mastercontractor.MasterContractor;
 import com.iona.ionaapi.domain.mastercontractor.enums.MasterContractorType;
 import com.iona.ionaapi.infrastructure.repository.MasterContractorRepository;
@@ -23,47 +24,48 @@ import java.util.UUID;
 @Service
 @Transactional
 public class MasterContractorService {
-    
+
+
     private static final Logger logger = LoggerFactory.getLogger(MasterContractorService.class);
-    
+
     private final MasterContractorRepository masterContractorRepository;
-    
+
     public MasterContractorService(MasterContractorRepository masterContractorRepository) {
         this.masterContractorRepository = masterContractorRepository;
     }
-    
+
     /**
      * Creates a new master contractor
      */
     public MasterContractor createMasterContractor(MasterContractor masterContractor) {
         String tenant = TenantContext.getTenantOrDefault();
         logger.info("Creating master contractor '{}' for tenant: {}", masterContractor.getName(), tenant);
-        
+
         // Validate that SIRET doesn't already exist
         if (masterContractorRepository.existsBySiret(masterContractor.getSiret())) {
             throw new IllegalArgumentException("A master contractor with SIRET " + masterContractor.getSiret() + " already exists");
         }
-        
+
         MasterContractor savedMasterContractor = masterContractorRepository.save(masterContractor);
         logger.info("Master contractor created with ID: {} for tenant: {}", savedMasterContractor.getId(), tenant);
-        
+
         return savedMasterContractor;
     }
-    
+
     /**
      * Updates an existing master contractor
      */
     public MasterContractor updateMasterContractor(UUID id, MasterContractor masterContractor) {
         String tenant = TenantContext.getTenantOrDefault();
         logger.info("Updating master contractor {} for tenant: {}", id, tenant);
-        
+
         Optional<MasterContractor> existingMasterContractor = masterContractorRepository.findById(id);
         if (existingMasterContractor.isEmpty()) {
             throw new IllegalArgumentException("Master contractor not found: " + id);
         }
-        
+
         MasterContractor toUpdate = existingMasterContractor.get();
-        
+
         // Update fields
         if (masterContractor.getName() != null) {
             toUpdate.setName(masterContractor.getName());
@@ -81,13 +83,26 @@ public class MasterContractorService {
             }
             toUpdate.setSiret(masterContractor.getSiret());
         }
-        
+
+        // Update contacts if provided
+        if (masterContractor.getContacts() != null) {
+            // Clear existing contacts
+            toUpdate.getContacts().clear();
+
+            // Add new contacts
+            for (Contact contact : masterContractor.getContacts()) {
+                toUpdate.addContact(contact);
+            }
+
+            logger.info("Updated {} contacts for master contractor {}", masterContractor.getContacts().size(), id);
+        }
+
         MasterContractor updatedMasterContractor = masterContractorRepository.save(toUpdate);
         logger.info("Master contractor {} updated for tenant: {}", id, tenant);
-        
+
         return updatedMasterContractor;
     }
-    
+
     /**
      * Retrieves a master contractor by ID
      */
@@ -95,10 +110,10 @@ public class MasterContractorService {
     public Optional<MasterContractor> getMasterContractorById(UUID id) {
         String tenant = TenantContext.getTenantOrDefault();
         logger.debug("Searching for master contractor {} for tenant: {}", id, tenant);
-        
+
         return masterContractorRepository.findById(id);
     }
-    
+
     /**
      * Lists all master contractors with pagination
      */
@@ -106,10 +121,10 @@ public class MasterContractorService {
     public Page<MasterContractor> getAllMasterContractors(Pageable pageable) {
         String tenant = TenantContext.getTenantOrDefault();
         logger.debug("Retrieving all master contractors for tenant: {}", tenant);
-        
+
         return masterContractorRepository.findAll(pageable);
     }
-    
+
     /**
      * Searches master contractors by name
      */
@@ -117,10 +132,10 @@ public class MasterContractorService {
     public List<MasterContractor> searchMasterContractorsByName(String name) {
         String tenant = TenantContext.getTenantOrDefault();
         logger.debug("Searching master contractors by name '{}' for tenant: {}", name, tenant);
-        
+
         return masterContractorRepository.searchByName(name);
     }
-    
+
     /**
      * Retrieves master contractors by type
      */
@@ -128,25 +143,25 @@ public class MasterContractorService {
     public List<MasterContractor> getMasterContractorsByType(MasterContractorType type) {
         String tenant = TenantContext.getTenantOrDefault();
         logger.debug("Retrieving master contractors of type {} for tenant: {}", type, tenant);
-        
+
         return masterContractorRepository.findByType(type);
     }
-    
+
     /**
      * Deletes a master contractor permanently
      */
     public void deleteMasterContractor(UUID id) {
         String tenant = TenantContext.getTenantOrDefault();
         logger.warn("Permanently deleting master contractor {} for tenant: {}", id, tenant);
-        
+
         if (!masterContractorRepository.existsById(id)) {
             throw new IllegalArgumentException("Master contractor not found: " + id);
         }
-        
+
         masterContractorRepository.deleteById(id);
         logger.warn("Master contractor {} permanently deleted for tenant: {}", id, tenant);
     }
-    
+
     /**
      * Master contractor statistics by type for current tenant
      */
@@ -154,11 +169,12 @@ public class MasterContractorService {
     public MasterContractorStats getMasterContractorStats() {
         String tenant = TenantContext.getTenantOrDefault();
         logger.debug("Generating master contractor stats for tenant: {}", tenant);
-        
+
         return new MasterContractorStats(
-            masterContractorRepository.countByType(MasterContractorType.PRIVATE),
-            masterContractorRepository.countByType(MasterContractorType.PUBLIC)
+                masterContractorRepository.countByType(MasterContractorType.PRIVATE),
+                masterContractorRepository.countByType(MasterContractorType.PUBLIC)
         );
     }
+
 
 }

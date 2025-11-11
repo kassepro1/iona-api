@@ -10,9 +10,9 @@ import org.springframework.jdbc.datasource.lookup.AbstractRoutingDataSource;
  * selon le tenant courant défini dans TenantContext
  */
 public class MultiTenantDataSource extends AbstractRoutingDataSource {
-    
+
     private static final Logger logger = LoggerFactory.getLogger(MultiTenantDataSource.class);
-    
+
     /**
      * Détermine quel schema utiliser basé sur le tenant actuel
      * Cette méthode est appelée à chaque accès à la base de données
@@ -21,11 +21,11 @@ public class MultiTenantDataSource extends AbstractRoutingDataSource {
     protected Object determineCurrentLookupKey() {
         String tenant = TenantContext.getTenant();
         String schema = resolveSchemaName(tenant);
-        
+
         logger.debug("Routing vers le schema: {} pour le tenant: {}", schema, tenant);
         return schema;
     }
-    
+
     /**
      * Résout le nom du schema PostgreSQL basé sur l'identifiant du tenant
      * Format: tenant_{tenantId} ou "public" par défaut
@@ -35,12 +35,12 @@ public class MultiTenantDataSource extends AbstractRoutingDataSource {
             logger.debug("Aucun tenant défini, utilisation du schema public");
             return "public";
         }
-        
+
         // Nettoie et normalise le nom du tenant
         String cleanTenant = tenant.toLowerCase()
                 .replaceAll("[^a-z0-9_-]", "_")  // Remplace caractères invalides
                 .replaceAll("_{2,}", "_");        // Supprime les underscores multiples
-        
+
         return "tenant_" + cleanTenant;
     }
 }
