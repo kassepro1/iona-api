@@ -18,7 +18,7 @@ import java.util.Map;
  * Permet de créer, lister et gérer les tenants dynamiquement
  */
 @RestController
-@RequestMapping("/api/tenants")
+@RequestMapping("/api/v1/tenants")
 public class TenantController {
     
     private static final Logger logger = LoggerFactory.getLogger(TenantController.class);

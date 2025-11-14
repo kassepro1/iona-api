@@ -29,7 +29,7 @@ import java.util.UUID;
  * Chaque opération s'exécute dans le contexte du tenant courant
  */
 @RestController
-@RequestMapping("/api/partners")
+@RequestMapping("/api/v1/partners")
 public class PartnerController {
     
     private static final Logger logger = LoggerFactory.getLogger(PartnerController.class);

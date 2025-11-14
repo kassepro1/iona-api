@@ -42,6 +42,10 @@ public class Project {
     @Enumerated(EnumType.STRING)
     @Column(name = "status", nullable = false)
     private ProjectStatus status = ProjectStatus.PLANNED;
+
+
+    @Column(name = "owner_name", nullable = false)
+    private String ownerName;
     
     // Reference to master contractor (owner of the project)
     @Column(name = "owner_id")
@@ -182,7 +186,15 @@ public class Project {
     
     public Instant getLastUpdatedAt() { return lastUpdatedAt; }
     public void setLastUpdatedAt(Instant lastUpdatedAt) { this.lastUpdatedAt = lastUpdatedAt; }
-    
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
+
     @Override
     public String toString() {
         return String.format("Project{id=%s, name='%s', status=%s, ownerId=%s, contractorsCount=%d}", 

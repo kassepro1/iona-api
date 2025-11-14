@@ -27,7 +27,7 @@ import java.util.UUID;
  * Each operation executes in the current tenant context
  */
 @RestController
-@RequestMapping("/api/contractors")
+@RequestMapping("/api/v1/contractors")
 public class ContractorController {
     
     private static final Logger logger = LoggerFactory.getLogger(ContractorController.class);

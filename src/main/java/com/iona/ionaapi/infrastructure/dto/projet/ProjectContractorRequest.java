@@ -10,6 +10,7 @@ import java.util.UUID;
 public class ProjectContractorRequest {
     private UUID contractorId;
     private String role;
+    private String name;
     private BigDecimal contractAmount;
     private LocalDate startDate;
     private LocalDate endDate;
@@ -32,4 +33,12 @@ public class ProjectContractorRequest {
     
     public LocalDate getEndDate() { return endDate; }
     public void setEndDate(LocalDate endDate) { this.endDate = endDate; }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

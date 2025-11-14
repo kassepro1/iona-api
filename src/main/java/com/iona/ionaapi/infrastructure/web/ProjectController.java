@@ -33,7 +33,8 @@ import java.util.UUID;
  * Each operation executes in the current tenant context
  */
 @RestController
-@RequestMapping("/api/projects")
+@RequestMapping("/api/v1/projects")
+@CrossOrigin("http://localhost:4200")
 public class ProjectController {
     
     private static final Logger logger = LoggerFactory.getLogger(ProjectController.class);
@@ -62,12 +63,14 @@ public class ProjectController {
      *          {
      *            "contractorId": "contractor-uuid-1",
      *            "role": "Électricité générale",
+     *            "name": "Nord Elec",
      *            "contractAmount": 150000.00,
      *            "startDate": "2025-03-15"
      *          },
      *          {
      *            "contractorId": "contractor-uuid-2", 
      *            "role": "Plomberie et chauffage",
+     *            "name": "Nord Plomb",
      *            "contractAmount": 120000.00,
      *            "startDate": "2025-04-01"
      *          }
@@ -112,8 +115,11 @@ public class ProjectController {
                 for (ProjectContractorRequest contractorReq : request.getContractors()) {
                     ProjectContractor projectContractor = new ProjectContractor();
                     projectContractor.setProject(project);
+                    //fixme verifier contractorReq.getContractorId()
+
                     projectContractor.setContractorId(contractorReq.getContractorId());
                     projectContractor.setRole(contractorReq.getRole());
+                    projectContractor.setName(contractorReq.getName());
                     projectContractor.setContractAmount(contractorReq.getContractAmount());
                     projectContractor.setStartDate(contractorReq.getStartDate());
                     projectContractor.setEndDate(contractorReq.getEndDate());
@@ -154,6 +160,7 @@ public class ProjectController {
      *          {
      *            "contractorId": "contractor-uuid-1",
      *            "role": "Électricité générale + Domotique",
+     *            "name": "Sim Électricité",
      *            "contractAmount": 180000.00,
      *            "startDate": "2025-03-15",
      *            "endDate": "2025-06-15"
@@ -183,8 +190,10 @@ public class ProjectController {
                 
                 for (ProjectContractorRequest contractorReq : request.getContractors()) {
                     ProjectContractor projectContractor = new ProjectContractor();
+                    //fixme verifier contractorReq.getContractorId()
                     projectContractor.setContractorId(contractorReq.getContractorId());
                     projectContractor.setRole(contractorReq.getRole());
+                    projectContractor.setName(contractorReq.getName());
                     projectContractor.setContractAmount(contractorReq.getContractAmount());
                     projectContractor.setStartDate(contractorReq.getStartDate());
                     projectContractor.setEndDate(contractorReq.getEndDate());

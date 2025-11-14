@@ -1,5 +1,6 @@
 package com.iona.ionaapi.domain.project;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.math.BigDecimal;
@@ -20,6 +21,7 @@ public class ProjectContractor {
     
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "project_id")
+    @JsonIgnore
     private Project project;
     
     @Column(name = "contractor_id")
@@ -27,7 +29,9 @@ public class ProjectContractor {
     
     @Column(name = "role")
     private String role;  // Role in the project (e.g., "Électricité", "Plomberie")
-    
+
+    @Column(name = "name")
+    private String name;
     @Column(name = "contract_amount", precision = 15, scale = 2)
     private BigDecimal contractAmount;
     
@@ -69,4 +73,12 @@ public class ProjectContractor {
     
     public Instant getCreatedAt() { return createdAt; }
     public void setCreatedAt(Instant createdAt) { this.createdAt = createdAt; }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
 }

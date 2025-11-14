@@ -16,6 +16,7 @@ public class UpdateProjectRequest {
     private BigDecimal cost;
     private LocalDate openingDate;
     private String mission;
+    private String ownerName;
     private UUID ownerId;
     private ProjectStatus status;
     private List<ProjectContractorRequest> contractors;
@@ -47,4 +48,12 @@ public class UpdateProjectRequest {
     
     public List<ProjectContractorRequest> getContractors() { return contractors; }
     public void setContractors(List<ProjectContractorRequest> contractors) { this.contractors = contractors; }
+
+    public String getOwnerName() {
+        return ownerName;
+    }
+
+    public void setOwnerName(String ownerName) {
+        this.ownerName = ownerName;
+    }
 }
