@@ -103,7 +103,8 @@ public class ProjectController {
             project.setOpeningDate(request.getOpeningDate());
             project.setMission(request.getMission());
             project.setOwnerId(request.getOwnerId());
-            
+            project.setOwnerName(request.getOwnerName());
+
             if (request.getStatus() != null) {
                 project.setStatus(request.getStatus());
             }
@@ -183,7 +184,8 @@ public class ProjectController {
             projectUpdates.setMission(request.getMission());
             projectUpdates.setStatus(request.getStatus());
             projectUpdates.setOwnerId(request.getOwnerId());
-            
+            projectUpdates.setOwnerName(request.getOwnerName());
+
             // Update contractors if provided
             if (request.getContractors() != null && !request.getContractors().isEmpty()) {
                 logger.info("Updating {} contractors for project {}", request.getContractors().size(), id);
