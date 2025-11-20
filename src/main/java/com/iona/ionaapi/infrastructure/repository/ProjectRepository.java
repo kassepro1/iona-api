@@ -24,7 +24,9 @@ public interface ProjectRepository extends JpaRepository<Project, UUID> {
      * Find projects by owner (master contractor)
      */
     List<Project> findByOwnerId(UUID ownerId);
-    
+
+    List<Project> findAllByOwnerId(UUID ownerId);
+
     /**
      * Find projects by status
      */

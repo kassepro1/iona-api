@@ -324,7 +324,7 @@ public class ProjectController {
     public ResponseEntity<List<Project>> getProjectsByOwner(@PathVariable UUID ownerId) {
         try {
             String tenant = TenantContext.getTenantOrDefault();
-            logger.debug("Retrieving projects for owner {} for tenant: {}", ownerId, tenant);
+            logger.info("Retrieving projects for owner {} for tenant: {}", ownerId, tenant);
             
             List<Project> projects = projectService.getProjectsByOwner(ownerId);
             return ResponseEntity.ok(projects);

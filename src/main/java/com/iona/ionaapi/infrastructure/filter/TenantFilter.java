@@ -75,7 +75,7 @@ public class TenantFilter extends OncePerRequestFilter {
                 headers.put(headerName, headerValue);
             }
 //            debugInfo.put("allHeaders", headers);
-            log.info("tenantHeaders {}",headers);
+//            log.info("tenantHeaders {}",headers);
 
             // Tests spécifiques des headers tenant
             Map<String, String> tenantHeaders = new HashMap<>();
@@ -92,7 +92,7 @@ public class TenantFilter extends OncePerRequestFilter {
                 tenantHeaders.put(headerName, headerValue);
             }
 //            debugInfo.put("tenantHeaders", tenantHeaders);
-            log.info("tenantHeaders {}",tenantHeaders);
+//            log.info("tenantHeaders {}",tenantHeaders);
             // Extrait le tenant depuis la requête
 //            String tenantId = extractTenantFromRequest(request);
             String tenantId = tenantHeaders.get(TENANT_HEADER_NAME).toString();

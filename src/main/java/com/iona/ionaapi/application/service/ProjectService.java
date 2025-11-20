@@ -155,12 +155,11 @@ public class ProjectService {
     /**
      * Retrieves projects by owner
      */
-    @Transactional(readOnly = true)
     public List<Project> getProjectsByOwner(UUID ownerId) {
         String tenant = TenantContext.getTenantOrDefault();
         logger.debug("Retrieving projects for owner {} for tenant: {}", ownerId, tenant);
         
-        return projectRepository.findByOwnerId(ownerId);
+        return projectRepository.findAllByOwnerId(ownerId);
     }
     
     /**
